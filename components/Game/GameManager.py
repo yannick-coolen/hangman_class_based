@@ -51,7 +51,7 @@ class GameManager:
         self._letter_to_guess = letter
 
 
-    def check_input(self) -> None:
+    def check_input(self) -> str:
         char_position: CharField = self.char_managing.char_field
         is_position = self.char_managing.char_field.list_of_chars
         position = self.position_check(char_position, is_position)
@@ -59,8 +59,12 @@ class GameManager:
         if self._letter_to_guess.lower() not in position:
             self._score.turns_to_guess(False)
 
-        amount_turns = self._score.get_turns()
-        print(f"{amount_turns}\n{is_position}")
+        amount_turns = self.check_score()
+        return f"{amount_turns}\n{is_position}"
+        
+    
+    def check_score(self) -> int:
+        return self._score.get_turns()
 
 
     def position_check(self, char_index: CharField, is_position: List[str]):

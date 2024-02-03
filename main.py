@@ -1,7 +1,7 @@
 from components.Game.InitGame import InitGame
 
 
-def start_hangman():
+def hangman_game():
 # After a word has been chosen the game can start
     print("----Welcome to Hangman---- (Beta)")
     print("Choose your dificulty") 
@@ -11,27 +11,32 @@ def start_hangman():
     print("will beark this game.>>\n") 
     print("1: Easy\n2: Normal\n3: Hard")
     
-    
     input_difficulty = int(input("Enter a value: "))
     
     print("-"*5)
-    hangman_game(input_difficulty)
+    start_hangman_game(input_difficulty)
 
 
-def hangman_game(input_difficulty: int) -> str | None:
+def start_hangman_game(input_difficulty: int) -> str | None:
+    running_status = True
     game = InitGame()
-    game.start_game(input_difficulty)
+    game.set_running_status(running_status)
+    game.start_game(input_difficulty) # Difficulty is being set trough here
 
-    # while(game.game_is_running()):
-    # if (game.get_score().get_turns() > 0):
-    test = game.display_word()
-    print(test)
+    
 
-    print("Enter a letter")
-    input_letter = input()
+    while(running_status):
+        if (game.game_manager.check_score() > 0):
+            test = game.display_word()
+            print(test)
 
-    game.game_manager.set_letter(input_letter)
-    return f"{game.check_input_value()}"
+            print("Enter a letter")
+    
+            input_letter = input()
 
+            game.game_manager.set_letter(input_letter)
+            print(f"{game.check_input_value()}")
+        else:
+            running_status = game.stop_game()
 
-start_hangman()
+hangman_game()
