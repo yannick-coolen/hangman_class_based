@@ -1,0 +1,72 @@
+from typing import List
+
+from ..CharsForGame.CharField import CharField
+from ..CharsForGame.CharManager import CharManager
+from ..Score.Score import Score
+from ..Word.WordChars import WordChars
+from ..Word.WordSelector import WordSelector
+
+
+class GameManager:
+    _score = Score()
+
+    def __init__(self, difficulty: str | None):
+        self.difficulty = difficulty
+        
+
+    def get_word_from_file(self) -> List[str]:
+        self._secret_word = WordSelector().get_word_from_file(self.difficulty)
+        return WordChars().set_word_in_chars(self._secret_word)
+
+
+    def initiate_game(self) -> str:
+        """
+        #### Description:
+        Initiate point where the game is being handled
+
+        #### Parameter:
+        A series of characters to set up this game
+
+        #### Return:
+        Display that the user will see in the terminal
+        """
+        chars = self.get_word_from_file()
+        self.char_managing = CharManager(chars)
+        amount_of_chars: int = self.char_managing.char_counter.count_chars()
+
+        self.char_managing.char_field.field_with_invisible_chars(amount_of_chars)
+
+        return self._secret_word
+
+
+    def set_word_to_guess(self, word_to_guess: str) -> None:
+        self._secret_word = word_to_guess
+
+
+    def display_word(self) -> str:
+        return self._secret_word
+
+
+    def set_letter(self, letter: str) -> None:
+        self._letter_to_guess = letter
+
+
+    def check_input(self) -> None:
+        char_position: CharField = self.char_managing.char_field
+        is_position = self.char_managing.char_field.list_of_chars
+        position = self.position_check(char_position, is_position)
+
+        if self._letter_to_guess.lower() not in position:
+            self._score.turns_to_guess(False)
+
+        amount_turns = self._score.get_turns()
+        print(f"{amount_turns}\n{is_position}")
+
+
+    def position_check(self, char_index: CharField, is_position: List[str]):
+        for position in range(len(self._secret_word)):
+            letter = self._secret_word[position]
+            if letter.lower() == self._letter_to_guess.lower():
+                letters_position = char_index.get_hidden_word(position, letter)
+                is_position = letters_position
+        return is_position
