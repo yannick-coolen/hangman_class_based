@@ -1,16 +1,9 @@
-# from typing import List
-
-from ..Word.WordSelector import WordSelector
 
 
 class GameWord:
     _secret_word = ""
 
-    def __init__(self):
-        self.word_selector = WordSelector()
-
-
-    def display_word(self):
+    def display_word(self) -> str:
         return self._secret_word
 
 

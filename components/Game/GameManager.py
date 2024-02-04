@@ -19,7 +19,7 @@ class GameManager:
         return WordChars().set_word_in_chars(self._secret_word)
 
 
-    def initiate_game(self) -> str:
+    def initiate_game_managing(self) -> str:
         """
         #### Description:
         Initiate point where the game is being handled
@@ -32,25 +32,23 @@ class GameManager:
         """
         chars = self.get_word_from_file()
         self.char_managing = CharManager(chars)
-        amount_of_chars: int = self.char_managing.char_counter.count_chars()
+        amount_of_chars = self.char_managing.char_counter.count_chars() + 1
 
         self.char_managing.char_field.field_with_invisible_chars(amount_of_chars)
 
         return self._secret_word
 
 
-    def set_word_to_guess(self, word_to_guess: str) -> None:
-        self._secret_word = word_to_guess
-
-
+    # GameWord
     def display_word(self) -> str:
         return self._secret_word
 
 
     def set_letter(self, letter: str) -> None:
         self._letter_to_guess = letter
+    # End GameWord
 
-
+    # This should be in a class that check the user's input
     def check_input(self) -> str:
         char_position: CharField = self.char_managing.char_field
         is_position = self.char_managing.char_field.list_of_chars
@@ -66,7 +64,7 @@ class GameManager:
     def check_score(self) -> int:
         return self._score.get_turns()
 
-
+    # this should be in a class that only check the position
     def position_check(self, char_index: CharField, is_position: List[str]):
         for position in range(len(self._secret_word)):
             letter = self._secret_word[position]
