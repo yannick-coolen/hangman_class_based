@@ -23,11 +23,10 @@ def start_hangman_game(input_difficulty: int) -> str | None:
     game.set_running_status(running_status)
     game.start_game(input_difficulty) # Difficulty is being set trough here
 
-    
 
     while(running_status):
         if (game.game_manager.check_score() > 0):
-            test = game.display_word()
+            test = game.game_manager.display_word()
             print(test)
 
             print("Enter a letter")
@@ -35,8 +34,9 @@ def start_hangman_game(input_difficulty: int) -> str | None:
             input_letter = input()
 
             game.game_manager.set_letter(input_letter)
-            print(f"{game.check_input_value()}")
+            print(f"{game.game_manager.check_input()}")
         else:
             running_status = game.stop_game()
+
 
 hangman_game()
