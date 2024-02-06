@@ -8,9 +8,6 @@ class WordSelector:
         """
         #### Description:
           Takes a word from a text file
-
-        #### Returns:
-          str: A random word from the txt.file as a string value
         """
 
         file: TextIOWrapper = open("wordlist.txt", "r")
