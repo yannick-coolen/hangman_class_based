@@ -4,12 +4,12 @@ from ..Display.DisplayHangman import DisplayHangman
 class Score:
     _amount_of_turns = 9
 
-    def turns_to_guess(self, answer: bool) -> str | None:
-        if not answer:
+    def turns_to_guess(self, turns: bool, secret_word: str) -> str | None:
+        if not turns:
             self._amount_of_turns -= 1
             if self.get_turns() <= 0:
                 print(
-                    f"""\nGame Over
+                    f"""\nGame Over\n\nThe word was: {secret_word}
                       {DisplayHangman().get_display(self._amount_of_turns)}"""
                 )
             else:
