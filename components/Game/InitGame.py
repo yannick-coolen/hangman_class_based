@@ -2,7 +2,7 @@ from .GameDifficulty import GameDifficulty
 from .GameManager import GameManager
 
 
-class InitGame:
+class InitGame:   
     def start_game(self, difficulty: int):
         self.difficulty = GameDifficulty().select_dificulty(difficulty)
         

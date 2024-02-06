@@ -1,7 +1,7 @@
 from typing import List
 
+from ..CharsForGame.CharCounter import CharCounter
 from ..CharsForGame.CharField import CharField
-from ..CharsForGame.CharManager import CharManager
 from ..Score.Score import Score
 from ..Word.WordChars import WordChars
 from ..Word.WordSelector import WordSelector
@@ -9,6 +9,7 @@ from ..Word.WordSelector import WordSelector
 
 class GameManager:
     _score = Score()
+    _char_field = CharField()
 
     def __init__(self, difficulty: str | None):
         self.difficulty = difficulty
@@ -30,11 +31,10 @@ class GameManager:
         #### Return:
         Display that the user will see in the terminal
         """
-        chars = self.get_word_from_file()
-        self.char_managing = CharManager(chars)
-        amount_of_chars = self.char_managing.char_counter.count_chars() + 1
+        chars = self.get_word_from_file() # gets new chars of a chose word
+        amount_of_chars = CharCounter(chars).get_length_of_chars() + 1
 
-        self.char_managing.char_field.field_with_invisible_chars(amount_of_chars)
+        self._char_field.field_with_invisible_chars(amount_of_chars)
 
         return self._secret_word
 
@@ -44,31 +44,35 @@ class GameManager:
         return self._secret_word
 
 
+    def get_char(self):
+        return self._char_field
+
+
     def set_letter(self, letter: str) -> None:
         self._letter_to_guess = letter
     # End GameWord
 
     # This should be in a class that check the user's input
     def check_input(self) -> str:
-        char_position: CharField = self.char_managing.char_field
-        is_position = self.char_managing.char_field.list_of_chars
-        position = self.position_check(char_position, is_position)
+        is_position: List[str] = self._char_field.list_of_chars()
+        
+        if self._letter_to_guess != "":
+            position = self._position_check(is_position)
 
-        if self._letter_to_guess.lower() not in position:
-            self._score.turns_to_guess(False)
+            if self._letter_to_guess.lower() not in position:
+                self._score.turns_to_guess(False)
 
-        amount_turns = self.check_score()
-        return f"{amount_turns}\n{is_position}"
+        return f"{is_position}"
         
     
     def check_score(self) -> int:
         return self._score.get_turns()
 
     # this should be in a class that only check the position
-    def position_check(self, char_index: CharField, is_position: List[str]):
+    def _position_check(self,  is_position: List[str]):       
         for position in range(len(self._secret_word)):
             letter = self._secret_word[position]
             if letter.lower() == self._letter_to_guess.lower():
-                letters_position = char_index.get_hidden_word(position, letter)
-                is_position = letters_position
+                is_position = self._char_field.get_hidden_word(position, letter)
+                
         return is_position
