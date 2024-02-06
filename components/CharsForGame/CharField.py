@@ -4,9 +4,6 @@ from typing import List
 class CharField():
     _list_of_chars: List[str] = []
         
-    def set_char_input(self, input_value: str) -> None:
-        self.letter_to_guess = input_value
-
 
     def list_of_chars(self) -> List[str]:
         return self._list_of_chars
