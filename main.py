@@ -22,29 +22,8 @@ def hangman_game():
 
 
 def start_hangman_game(input_difficulty: int) -> str | None:
-    running_status = True
     game = InitGame()
-    game.set_running_status(running_status)
     game.start_game(input_difficulty) # Difficulty is being set trough here
-
-
-    while(running_status):
-        if (game.game_manager.check_score() > 0):
-            test = game.game_manager.display_word()
-            print(test)
-            
-            
-            print()
-            input_letter = input("Enter a letter: ")
-
-
-            game.game_manager.set_letter(input_letter)
-            print(f"{game.game_manager.check_input()}")
-        elif "_" not in game.game_manager.get_char().list_of_chars():
-            print("You won!")
-            running_status = game.stop_game()
-        else:
-            running_status = game.stop_game()
 
 
 hangman_game()
