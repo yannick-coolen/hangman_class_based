@@ -8,6 +8,7 @@ from ..Word.WordSelector import WordSelector
 
 
 class GameManager:
+    _guess_letters: List[str] = []
     def __init__(self, difficulty: str | None):
         self.difficulty = difficulty
         self.score = Score()
@@ -40,16 +41,19 @@ class GameManager:
 
     # This should be in a class that check the user's input
     def set_letter(self, letter: str) -> None:
-        self._letter_to_guess = letter
+        self.letter_to_guess = letter
 
 
     def check_input(self) -> str:
         is_position: List[str] = self.char_field.list_of_chars()
 
-        if self._letter_to_guess != "":
+        if self.letter_to_guess != "":
+            self._guess_letters.append(self.letter_to_guess)
+            print(f"Guessed letter: {self._guess_letters}")
+            print("=============================")
             position = self._position_check(is_position)
 
-            if self._letter_to_guess.lower() not in position:
+            if self.letter_to_guess.lower() not in position:
                 self.score.turns_to_guess(False, self._secret_word)
 
         return f"{is_position}"
@@ -59,7 +63,7 @@ class GameManager:
     def _position_check(self, is_position: List[str]):
         for position in range(len(self._secret_word)):
             letter = self._secret_word[position]
-            if letter.lower() == self._letter_to_guess.lower():
+            if letter.lower() == self.letter_to_guess.lower():
                 is_position = self.char_field.get_hidden_word(position, letter)
 
         return is_position
