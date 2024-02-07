@@ -2,7 +2,7 @@ from ..Display.DisplayHangman import DisplayHangman
 
 
 class Score:
-    _amount_of_turns = 9
+    _amount_of_turns = 10
 
     def turns_to_guess(self, answer: bool, secret_word: str) -> str | None:
         if not answer:
