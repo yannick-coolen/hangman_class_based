@@ -1,5 +1,3 @@
-
-
 class GameWord:
     _secret_word = ""
 
