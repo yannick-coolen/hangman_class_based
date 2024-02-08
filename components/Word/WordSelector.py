@@ -25,7 +25,7 @@ class WordSelector:
         if difficulty == "easy":
             lines = [
                 line.strip() for line in file.readlines() 
-                if len(line.strip()) <= 6
+                if len(line.strip()) >= 13
             ]
         elif difficulty == "normal":
             lines = [
@@ -35,7 +35,7 @@ class WordSelector:
         elif difficulty == "hard":
             lines = [
                 line.strip() for line in file.readlines() 
-                if len(line.strip()) >= 13
+                if len(line.strip()) <= 6
             ]
 
         return lines
