@@ -22,16 +22,17 @@ class InitGame:
 
     def _running(self):
         while self._running_status:
-            if self.game_manager.score.get_turns() > 0:
-                input_letter = input("Enter a letter: ")
+            if "_" in self.game_manager.char_field.list_of_chars(): # <--- this should check if the list has no blank anymore
+                if self.game_manager.score.get_turns() > 0:
+                    input_letter = input("Enter a letter: ")
 
-                self.game_manager.set_letter(input_letter)
-                print(f"{self.game_manager.check_input()}")
-            elif "_" not in self.game_manager.char_field.list_of_chars():
-                print("You won!")
-                self._running_status = self.stop_game()
+                    self.game_manager.set_letter(input_letter)
+                    print(f"{self.game_manager.check_input()}")
+                else:
+                    self._running_status = self.stop_game()
             else:
                 self._running_status = self.stop_game()
+                print("\nYou won!")
 
 
     def stop_game(self) -> None:
