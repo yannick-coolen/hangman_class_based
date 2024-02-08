@@ -1,9 +1,11 @@
+from components.Display.DisplayLogo import DisplayLogo
 from components.Game.InitGame import InitGame
 
 
 def hangman_game():
 # After a word has been chosen the game can start
-    print("----Welcome to Hangman---- (Beta)")
+    DisplayLogo().logo()
+    print("(Beta)\n")
     print("Choose your dificulty, or if enter 0 to quit the game") 
     print("\n<<Note: the selection is not successfully done yet.")
     print("This is still in pending")
